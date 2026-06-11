@@ -12,6 +12,7 @@ import Tools from "@/pages/Tools";
 import Mindfulness from "@/pages/Mindfulness";
 import Safety from "@/pages/Safety";
 import Crisis from "@/pages/Crisis";
+import FAQ from "@/pages/FAQ";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ function Router() {
         <Route path="/mindfulness" component={Mindfulness} />
         <Route path="/safety" component={Safety} />
         <Route path="/crisis" component={Crisis} />
+        <Route path="/faq" component={FAQ} />
         <Route component={NotFound} />
       </Switch>
     </AppLayout>
