@@ -56,12 +56,14 @@ function getRulesStats() {
 
 function get1010Stats() {
   try {
-    const raw = localStorage.getItem("bridge_1010_completions");
+    const raw = localStorage.getItem("bridge_timers");
     if (!raw) return { week: 0, todayDone: 0 };
-    const completions: Record<string, boolean[]> = JSON.parse(raw);
-    const weekTotal = Object.values(completions).flat().filter(Boolean).length;
-    const todayDone = (completions[TODAY_STR] || []).filter(Boolean).length;
-    return { week: weekTotal, todayDone };
+    const parsed: { date: string; completed: Record<string, boolean> } = JSON.parse(raw);
+    const isToday = parsed.date === new Date().toDateString();
+    const todayDone = isToday
+      ? Object.values(parsed.completed).filter(Boolean).length
+      : 0;
+    return { week: todayDone, todayDone };
   } catch {
     return { week: 0, todayDone: 0 };
   }
@@ -284,7 +286,9 @@ export default function Dashboard() {
                 <Info className="w-3.5 h-3.5 text-muted-foreground/60 hover:text-primary transition-colors" />
               </Tooltip>
             </p>
-            <p className="text-xs text-muted-foreground/70">{connectionStats.week} this week</p>
+            <p className="text-xs text-muted-foreground/70">
+              {connectionStats.todayDone === 3 ? "All 3 done! ✓" : `${3 - connectionStats.todayDone} left today`}
+            </p>
           </div>
 
           {/* Streak */}
