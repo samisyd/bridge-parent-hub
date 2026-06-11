@@ -1,0 +1,97 @@
+You are an expert full-stack developer AI. Your task is to build a beautiful, empathetic, and highly functional Behavioral Coaching Web Application using Python (FastAPI), JavaScript, and Tailwind CSS. The app is named "Bridge: Parent Support Hub."
+
+The app serves as a private behavioral coaching platform designed exclusively for parents to track household expectations, access mental health education, manage stress, and leverage daily coaching strategies to keep conversations with their teenagers productive rather than confrontational. The educational resource library is built using evidence-based cognitive-behavioral techniques and the MPower Program framework from the "UniversityofMinnesota_ParentManual.pdf".
+
+Apply a warm, calming, and modern UI (using soft greens, blues, and warm grays) that feels like a supportive, private space for a parent.
+
+Implement the following core application structure, page routing, and features exactly as described below.
+
+---
+
+### CORE APP MODULES & LOGIC TO BUILD
+
+#### 1. The Daily Coaching Engine (Dashboard Feature)
+- A prominent card on the home dashboard that generates a "Daily Productive Communication Tip."
+- It must focus on shifting from confrontational language to collaborative language using the MPower Framework.
+- Provide interactive scenarios where a parent can practice converting a "Knee-Jerk Response" into a "Considered Response".
+
+#### 2. The Expectations & House Rules Tracker
+- An interactive interface where the parent logs, tracks, and manages household expectations.
+- **Features:** - A task list categorized by "House Rules" (e.g., Schoolwork, Household Responsibilities, Spending time with friends).
+  - A point-allocation system where checking off completed household expectations adds points to a family pool.
+  - A "Rewards Marketplace" where parents can log agreed-upon privileges (e.g., extra screen time, choosing family dinner, or a special weekend activity) and mark them as redeemed when points are exchanged.
+  - Clear disciplinary/consequence visibility so consequences and timelines are never vague or reactive.
+
+---
+
+### PAGE ROUTING & EDUCATIONAL ARCHITECTURE
+
+Build the following specific navigation tabs/pages within the application, embedding the structured content explicitly into the UI templates and referencing "UniversityofMinnesota_ParentManual.pdf" verbatim when providing manual frameworks:
+
+#### Page 1: Guide for Parents & Common Queries
+- **Section 1: The 6 Steps to Effective Communication (From UniversityofMinnesota_ParentManual.pdf)**
+  Render this as a clear visual stepper or vertical timeline for the parent to follow:
+  1. **"I Care":** Build connection first to lower defensiveness (e.g., "I care about you and don't want you to get hurt").
+  2. **"I See":** State objective facts without inserting opinions or blame ("When you came in last night, you were 3 hours late").
+  3. **"I Feel":** Share your feelings objectively without accusatory blame ("I felt really scared and worried").
+  4. **Listen:** Stop talking. Actively give them space to share their side, or offer to talk later if they aren't ready.
+  5. **"I Want":** State clear expectations for next steps ("I want you to call me to let me know you're safe").
+  6. **"I Will":** Define what you will or will not do to support the problem moving forward.
+- **Section 2: Interactive Common Queries Accordion**
+  Provide collapsible FAQ cards answering common parent dilemmas using positive parenting methodologies:
+  - *Q: "My teen rolls their eyes and walks away whenever I try to talk. What do I do?"*
+  - *Q: "How do I enforce a curfew without a screaming match?"*
+  - *Q: "How do I balance giving them independence while monitoring their safety?"*
+
+#### Page 2: Teenager Brain & Development
+- **The Construction Analogy:** Display an illustrative hero banner: "Caution: Teen Brain Under Construction! Full Accelerator, Brakes Not Installed Yet." Explaining that the Prefrontal Cortex (responsible for planning and consequences) isn't fully matured until roughly age 25.
+- **The Three Pillars of Maturation (From UniversityofMinnesota_ParentManual.pdf):** Create 3 feature cards explaining:
+  1. *Pruning:* The "Use it or lose it" process starting at age 11 (girls) / 12 (boys) where unused neural pathways die out and reinforced pathways strengthen.
+  2. *White Matter Maturation:* The thickening of the myelin sheath that speeds up connections.
+  3. *Gray Matter Maturation:* Un-myelinated cell bodies that handle signal processing—explaining why teens receive messages but struggle to process how to act logically.
+- **The Mid-Brain Triad:** Highlight the high activity of the *Hippocampus* (memory), *Amygdala* (intense emotions like fear/anger), and *Nucleus Accumbens* (pleasure-seeking/peer-motivation) supercharged by pubertal hormones.
+
+#### Page 3: Behavioral Tools & The 10:10:10 Connection Rule
+- **The 10:10:10 Connection Habit Tracker:** An interactive daily checklist for parents designed to build a proactive bond, release oxytocin (the bonding hormone), and make teens more cooperative. The tool features three 10-minute countdown timers/check-off cards:
+  1. *10 Minutes After They Wake Up:* Focus on presence over pressure. No phones, no morning rush to-do list nagging—just quiet chats, presence, or gentle rituals to set the emotional tone.
+  2. *10 Minutes When You Reunite:* Reconnecting after school or work. Looking them in the eye, asking about their day, listening intently, and signaling "You matter, I missed you."
+  3. *10 Minutes Before Bedtime:* Sacred wind-down time when teens naturally seek comfort or reassurance. Sharing affirmations, quiet reading, or a safe bedtime chat.
+  - *Interactive Implementation:* Parents can click to start a 10-minute countdown timer for each section, log quick text notes on how the connection felt, and track their weekly streak of "filling the connection cup" to reduce baseline family stress.
+- **The Tea Kettle Analogy Tool (From UniversityofMinnesota_ParentManual.pdf):** An interactive stress tracker detailing:
+  - *The Fire (Triggers):* Help parents identify personal or teen fight, flight, freeze, or appease triggers.
+  - *The Water (Sensations):* Recognizing physical signs of stress buildup (clenching jaw, shallow breathing, blood boiling).
+  - *The Whistle (Considered Response):* Drop-down lists of rapid behavioral coping strategies (Deep belly exhalations, relaxing the eyes, counting to 10 slowly).
+- **Cognitive Distortions Matrix (From UniversityofMinnesota_ParentManual.pdf):** A searchable table or grid mapping out the 12 counterproductive thought patterns (Catastrophizing, Mental Filtering, Mind Reading, Emotional Reasoning, "Should" Statements, All-or-Nothing thinking) with examples of how to challenge them.
+
+#### Page 4: Mindfulness, Calming, & Emotional Support
+- **The "2-Minute Vacation" Guided Component (From UniversityofMinnesota_ParentManual.pdf):** An interactive audio-visual UI element. A calming pulse animation that guides the parent to close their eyes, take deep breaths, and mentally map sensory grounding questions (What do you see, smell, hear, touch?).
+- **The Strengths Explorer Checklist (From UniversityofMinnesota_ParentManual.pdf):** An interactive quiz based on the "Exploring My Strengths" framework. Parents can check boxes for non-obvious adaptive personal traits (Staying calm in a crisis, being flexible, reading people well, being a good listener) and generate a summary card on how to apply these strengths to future family conflicts.
+- **Social & Emotional Support Strategies:** Dedicated advice lists on encouraging pro-social activities, avoiding excess caffeine/stimulants that mimic anxiety, and building external healthy peer networks.
+
+#### Page 5: Online Safety & Bullying Prevention
+- **Preventing and Addressing Bullying:** A step-by-step triage guide for parents to identify subtle signs of victimization or aggressive behavior in teens, offering actionable conversation templates that do not cause defensive shutdowns.
+- **Online and Social Media Safety Hub:** - Behavioral contract builders for digital devices (setting clear rules on screen time, public area charging, and phone monitoring expectations).
+  - Clear guidance on how to constructively discuss online privacy, digital footprints, cyberbullying, and exposure to harmful content without violating trust.
+
+#### Page 6: Mental Crisis, Suicide Prevention & Resources
+- **CRITICAL CRISIS BANNER:** A fixed, high-contrast, empathetic banner at the top of this page with immediate access to emergency services (e.g., 988 Suicide & Crisis Lifeline, Crisis Text Line).
+- **De-escalation Protocols:** Clear, non-judgmental steps on what to do if a teenager is experiencing an acute mental health crisis or expressing self-harming ideation.
+- **Support Resources Directory:** A neat, categorized list of websites and literature referencing major public health resources (such as SAMHSA, NIDA, Drugfree.org, and AACAP guidelines) for families needing professional psychiatric or chemical health consultations.
+
+---
+
+### TECHNICAL REQUIREMENTS & UX IMPLEMENTATION
+1. **No Authentication Flow Required:** The app should not require a registration, login, or password screen. It must offer an immediate, frictionless entry directly to the parent hub dashboard.
+2. **State Management:** All customized metrics, logged expectations, completed points, and 10:10:10 tracking history must be saved and loaded directly via the browser's browser-level `localStorage` API. This guarantees a private, local-first application data architecture that survives page reloads seamlessly.
+3. **Responsive Web Design:** Fully optimized layout for both desktop monitors and mobile smartphones so parents can log their connection times and access calming tools instantly mid-confrontation.
+
+---
+
+### PAYMENT & SUSTAINABILITY INTEGRATION
+
+To support server maintenance and ongoing hosting costs, the application features an elegant, non-intrusive "Kind Gesture" or "Support the App" utility card at the bottom of the dashboard or footer.
+- Design the support call-to-action (CTA) beautifully as a "Buy Me a Coffee" style appreciation panel with copy emphasizing voluntary support for keeping this parenting asset free.
+- The button must cleanly link directly to your verified URL.
+- Hardcode the following live payment endpoint into the link asset:
+
+[https://buy.stripe.com/bJedRa8Kt2oH46SfL0gjC00]
