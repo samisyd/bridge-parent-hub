@@ -9,7 +9,7 @@ import {
   SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Home, BookOpen, Brain, Activity, Heart, ShieldAlert, AlertTriangle, HelpCircle } from "lucide-react";
+import { Home, BookOpen, Brain, Activity, Heart, ShieldAlert, AlertTriangle, HelpCircle, Trophy } from "lucide-react";
 
 export function AppSidebar() {
   const [location] = useLocation();
@@ -24,6 +24,7 @@ export function AppSidebar() {
     { name: "Online Safety", href: "/safety", icon: ShieldAlert },
     { name: "Crisis & Resources", href: "/crisis", icon: AlertTriangle },
     { name: "What to Say", href: "/faq", icon: HelpCircle },
+    { name: "Rules & Rewards", href: "/rewards", icon: Trophy },
   ];
 
   return (
