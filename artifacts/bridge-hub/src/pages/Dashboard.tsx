@@ -268,7 +268,12 @@ export default function Dashboard() {
               <Coins className="w-4 h-4 text-primary" />
             </div>
             <p className="text-2xl font-bold font-serif text-primary">{rulesStats.available}</p>
-            <p className="text-xs text-muted-foreground">Points available</p>
+            <p className="text-xs text-muted-foreground flex items-center gap-1">
+              Points available
+              <Tooltip text="Earn points on the Rules & Rewards page by checking off daily house rules. Spend them in the Rewards Marketplace.">
+                <Info className="w-3.5 h-3.5 text-muted-foreground/60 hover:text-primary transition-colors" />
+              </Tooltip>
+            </p>
             <p className="text-xs text-muted-foreground/70">{rulesSubtext}</p>
           </div>
 
