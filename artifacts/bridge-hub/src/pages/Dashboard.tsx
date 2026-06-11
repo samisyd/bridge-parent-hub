@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import {
   BookOpen, Brain, Activity, Heart, ShieldAlert, AlertTriangle,
-  Coffee, Sparkles, HelpCircle, Trophy, Moon, Coins, CheckCircle2
+  Coffee, Sparkles, HelpCircle, Trophy, Moon, Coins, CheckCircle2, Info
 } from "lucide-react";
 
 const TIPS = [
@@ -21,20 +21,37 @@ const TIPS = [
   "It's okay to say 'I need a minute to think about this before I respond.'"
 ];
 
+const MOOD_OPTIONS = [
+  { emoji: "😌", label: "Calm", affirmation: "That steadiness is your superpower. Your teen feels it even when they don't say so." },
+  { emoji: "💪", label: "Motivated", affirmation: "That energy is contagious. Channel it into one small connection today." },
+  { emoji: "😰", label: "Stressed", affirmation: "Parenting is hard. Take one slow breath before your next interaction — it genuinely changes how they respond." },
+  { emoji: "😔", label: "Discouraged", affirmation: "Showing up on the hard days matters more than perfect days. You're still here — that counts." },
+  { emoji: "😤", label: "Frustrated", affirmation: "Frustration means you care. When you're ready, try: 'I need a few minutes — let's talk soon.'" },
+  { emoji: "🤗", label: "Connected", affirmation: "Hold onto that feeling. Notice what created it — that's your blueprint." },
+];
+
 const TODAY_STR = new Date().toISOString().split("T")[0];
+const MOOD_KEY = "bridge_mood_log";
 
 function getRulesStats() {
   try {
     const rules = JSON.parse(localStorage.getItem("bridge_rules") || "[]");
     const rewards = JSON.parse(localStorage.getItem("bridge_rewards") || "[]");
-    const totalEarned = rules.reduce((sum: number, r: { completedDates: string[]; points: number }) =>
-      sum + r.completedDates.length * r.points, 0);
+    const totalEarned = rules.reduce(
+      (sum: number, r: { completedDates: string[]; points: number }) =>
+        sum + r.completedDates.length * r.points,
+      0
+    );
     const totalSpent = rewards
       .filter((r: { redeemedAt: string | null }) => r.redeemedAt !== null)
       .reduce((sum: number, r: { pointCost: number }) => sum + r.pointCost, 0);
-    const todayDone = rules.filter((r: { completedDates: string[] }) => r.completedDates.includes(TODAY_STR)).length;
+    const todayDone = rules.filter((r: { completedDates: string[] }) =>
+      r.completedDates.includes(TODAY_STR)
+    ).length;
     return { available: totalEarned - totalSpent, todayDone, total: rules.length };
-  } catch { return { available: 0, todayDone: 0, total: 0 }; }
+  } catch {
+    return { available: 0, todayDone: 0, total: 0 };
+  }
 }
 
 function get1010Stats() {
@@ -45,7 +62,26 @@ function get1010Stats() {
     const weekTotal = Object.values(completions).flat().filter(Boolean).length;
     const todayDone = (completions[TODAY_STR] || []).filter(Boolean).length;
     return { week: weekTotal, todayDone };
-  } catch { return { week: 0, todayDone: 0 }; }
+  } catch {
+    return { week: 0, todayDone: 0 };
+  }
+}
+
+function getTodayMood(): string | null {
+  try {
+    const log = JSON.parse(localStorage.getItem(MOOD_KEY) || "{}");
+    return log[TODAY_STR] || null;
+  } catch {
+    return null;
+  }
+}
+
+function saveTodayMood(label: string) {
+  try {
+    const log = JSON.parse(localStorage.getItem(MOOD_KEY) || "{}");
+    log[TODAY_STR] = label;
+    localStorage.setItem(MOOD_KEY, JSON.stringify(log));
+  } catch {}
 }
 
 const TOOL_GROUPS = [
@@ -74,6 +110,77 @@ const TOOL_GROUPS = [
     ],
   },
 ];
+
+function Tooltip({ text, children }: { text: string; children: React.ReactNode }) {
+  const [visible, setVisible] = useState(false);
+  return (
+    <span className="relative inline-flex items-center">
+      <span
+        onMouseEnter={() => setVisible(true)}
+        onMouseLeave={() => setVisible(false)}
+        onFocus={() => setVisible(true)}
+        onBlur={() => setVisible(false)}
+        className="cursor-pointer"
+      >
+        {children}
+      </span>
+      {visible && (
+        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 w-64 rounded-lg bg-foreground text-background text-xs leading-relaxed px-3 py-2 shadow-lg pointer-events-none">
+          {text}
+          <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-foreground" />
+        </span>
+      )}
+    </span>
+  );
+}
+
+function MoodCheckin() {
+  const [selected, setSelected] = useState<string | null>(getTodayMood());
+  const [affirmation, setAffirmation] = useState<string | null>(
+    selected ? (MOOD_OPTIONS.find((m) => m.label === selected)?.affirmation ?? null) : null
+  );
+
+  function pick(option: { emoji: string; label: string; affirmation: string }) {
+    setSelected(option.label);
+    setAffirmation(option.affirmation);
+    saveTodayMood(option.label);
+  }
+
+  return (
+    <div className="rounded-xl border border-border bg-card p-5 space-y-4" data-testid="mood-checkin">
+      <div className="flex items-center gap-2">
+        <h2 className="text-lg font-serif font-medium text-foreground">How are you feeling right now?</h2>
+        {selected && (
+          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">logged today</span>
+        )}
+      </div>
+      <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+        {MOOD_OPTIONS.map((option) => (
+          <button
+            key={option.label}
+            onClick={() => pick(option)}
+            data-testid={`mood-${option.label.toLowerCase()}`}
+            className={`flex flex-col items-center gap-1.5 rounded-xl py-3 px-2 border transition-all duration-150 ${
+              selected === option.label
+                ? "border-primary bg-primary/10 shadow-sm scale-105"
+                : "border-border bg-muted/20 hover:bg-muted/40 hover:border-primary/30"
+            }`}
+          >
+            <span className="text-2xl leading-none">{option.emoji}</span>
+            <span className={`text-xs font-medium ${selected === option.label ? "text-primary" : "text-muted-foreground"}`}>
+              {option.label}
+            </span>
+          </button>
+        ))}
+      </div>
+      {affirmation && (
+        <div className="rounded-lg bg-primary/8 border border-primary/20 px-4 py-3 text-sm text-foreground/90 leading-relaxed animate-in fade-in slide-in-from-bottom-1 duration-300">
+          {affirmation}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Dashboard() {
   const [streak, setStreak] = useState(1);
@@ -106,8 +213,15 @@ export default function Dashboard() {
     setConnectionStats(get1010Stats());
   }, []);
 
+  const rulesSubtext =
+    rulesStats.total === 0
+      ? "No rules set yet"
+      : rulesStats.todayDone === 0
+      ? "No rules done today"
+      : `${rulesStats.todayDone}/${rulesStats.total} done today`;
+
   return (
-    <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in duration-500 pb-12">
+    <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500 pb-12">
 
       {/* Hero */}
       <div className="space-y-2">
@@ -123,6 +237,9 @@ export default function Dashboard() {
         <Sparkles className="w-5 h-5" />
         <span data-testid="text-streak">You've used Bridge {streak} {streak === 1 ? "day" : "days"} in a row.</span>
       </div>
+
+      {/* Mood check-in */}
+      <MoodCheckin />
 
       {/* Daily tip */}
       <Card className="bg-card border-none shadow-sm relative overflow-hidden">
@@ -142,16 +259,18 @@ export default function Dashboard() {
       <div>
         <h2 className="text-xl font-serif font-medium text-foreground mb-3">Today at a Glance</h2>
         <div className="grid grid-cols-3 gap-4">
+
+          {/* Points */}
           <div className="rounded-xl border border-border bg-card p-4 space-y-2" data-testid="stat-points">
             <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
               <Coins className="w-4 h-4 text-primary" />
             </div>
             <p className="text-2xl font-bold font-serif text-primary">{rulesStats.available}</p>
             <p className="text-xs text-muted-foreground">Points available</p>
-            <p className="text-xs text-muted-foreground/70">
-              {rulesStats.todayDone}/{rulesStats.total} rules done today
-            </p>
+            <p className="text-xs text-muted-foreground/70">{rulesSubtext}</p>
           </div>
+
+          {/* 10:10:10 with tooltip */}
           <div className="rounded-xl border border-border bg-card p-4 space-y-2" data-testid="stat-connections">
             <div className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center">
               <Heart className="w-4 h-4 text-teal-600 dark:text-teal-400" />
@@ -159,9 +278,16 @@ export default function Dashboard() {
             <p className="text-2xl font-bold font-serif text-teal-600 dark:text-teal-400">
               {connectionStats.todayDone}/3
             </p>
-            <p className="text-xs text-muted-foreground">10:10:10 moments</p>
+            <p className="text-xs text-muted-foreground flex items-center gap-1">
+              10:10:10 moments
+              <Tooltip text="10 minutes of positive attention · 10 minutes of active listening · 10 minutes of a shared activity. Three short daily investments that dramatically strengthen your relationship.">
+                <Info className="w-3.5 h-3.5 text-muted-foreground/60 hover:text-primary transition-colors" />
+              </Tooltip>
+            </p>
             <p className="text-xs text-muted-foreground/70">{connectionStats.week} this week</p>
           </div>
+
+          {/* Streak */}
           <div className="rounded-xl border border-border bg-card p-4 space-y-2" data-testid="stat-streak">
             <div className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400" />
