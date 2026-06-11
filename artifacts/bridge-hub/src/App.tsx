@@ -14,6 +14,7 @@ import Safety from "@/pages/Safety";
 import Crisis from "@/pages/Crisis";
 import FAQ from "@/pages/FAQ";
 import Rewards from "@/pages/Rewards";
+import Sleep from "@/pages/Sleep";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ function Router() {
         <Route path="/crisis" component={Crisis} />
         <Route path="/faq" component={FAQ} />
         <Route path="/rewards" component={Rewards} />
+        <Route path="/sleep" component={Sleep} />
         <Route component={NotFound} />
       </Switch>
     </AppLayout>
