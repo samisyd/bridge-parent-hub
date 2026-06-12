@@ -46,7 +46,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './artifacts/mockup-sandbox/dist' # 👈 Pointing directly to the compiled sandbox web folder
+          path: './artifacts/bridge-hub/dist' # 👈 Swapped out the sandbox tool for your actual app production build directory
 
       - name: Deploy to GitHub Pages
         id: deployment
