@@ -16,6 +16,7 @@ concurrency:
 env:
   PORT: 3000 
   BASE_PATH: /bridge-parent-hub/
+  VITE_BASE_PATH: /bridge-parent-hub/
 
 jobs:
   deploy:
@@ -40,13 +41,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Build project
-        run: pnpm build
+      - name: Force Build Dashboard Directly
+        run: |
+          cd artifacts/bridge-hub
+          pnpm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './artifacts/bridge-hub/dist' # 👈 Swapped out the sandbox tool for your actual app production build directory
+          path: './artifacts/bridge-hub/dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
