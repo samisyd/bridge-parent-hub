@@ -13,9 +13,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-# 👈 Added global environment variables to satisfy the Vite config requirement
+# 👈 Added BASE_PATH alongside PORT to satisfy the remaining Vite configuration rules
 env:
   PORT: 3000 
+  BASE_PATH: /bridge-parent-hub/
 
 jobs:
   deploy:
