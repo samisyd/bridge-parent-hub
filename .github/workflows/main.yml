@@ -13,6 +13,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+# 👈 Added global environment variables to satisfy the Vite config requirement
+env:
+  PORT: 3000 
+
 jobs:
   deploy:
     environment:
@@ -21,12 +25,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4              # Rolling back to stable v4 since it handles checkouts beautifully
+        uses: actions/checkout@v4
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20                     # Let's stick with Node 20 to guarantee pnpm v9 compatibility
+          node-version: 20
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -34,7 +38,7 @@ jobs:
           version: 9
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile # 👈 Added the flag here to fix the lockfile mismatch error
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build project
         run: pnpm build
