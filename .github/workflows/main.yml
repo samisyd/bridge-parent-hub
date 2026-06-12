@@ -41,15 +41,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Force Build Dashboard Directly
+      - name: Build project
+        run: pnpm build
+
+      - name: Find the Index File (Debug Step)
         run: |
-          cd artifacts/bridge-hub
-          pnpm run build
+          echo "=== SEARCHING FOR INDEX.HTML ==="
+          find . -name "index.html" -not -path "*/node_modules/*"
+          echo "=== SEARCHING FOR DIST FOLDERS ==="
+          find . -type d -name "dist" -not -path "*/node_modules/*"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './artifacts/bridge-hub/dist'
+          path: './artifacts/bridge-hub/dist' # We will leave this for a second while we read the logs
 
       - name: Deploy to GitHub Pages
         id: deployment
