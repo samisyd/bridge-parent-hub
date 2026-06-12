@@ -13,9 +13,6 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # Tells GitHub to run with Node 24 layout immediately
-
 jobs:
   deploy:
     environment:
@@ -28,9 +25,9 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24                  # Upgraded to Node 24
+          node-version: 22                  # Using Node 22 (the current stable LTS)
       - name: Install pnpm
-        uses: pnpm/action-setup@v4          # Upgraded pnpm action to v4 for Node 24 compatibility
+        uses: pnpm/action-setup@v4
         with:
           version: 9
       - name: Install dependencies
