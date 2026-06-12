@@ -21,23 +21,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6              # Upgraded v4 -> v6 for Node 24 support
+
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6             # Upgraded v4 -> v6 for Node 24 support
         with:
-          node-version: 22                  # Using Node 22 (the current stable LTS)
+          node-version: 24                      # Explicitly matching GitHub's preferred runtime
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
+
       - name: Install dependencies
         run: pnpm install
+
       - name: Build project
         run: pnpm build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './artifacts/dist'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
